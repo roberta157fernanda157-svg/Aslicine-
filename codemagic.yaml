@@ -1,0 +1,25 @@
+workflows:
+  aslicine-android:
+    name: ASLICINE Android APK
+    instance_type: linux_x2
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      groups: []
+      vars:
+        APP_API_BASE_URL: https://SEU-DOMINIO/api
+    scripts:
+      - name: Prepare Flutter Android project
+        script: |
+          cd app
+          flutter create --platforms=android .
+      - name: Get Flutter packages
+        script: |
+          cd app
+          flutter pub get
+      - name: Build APK
+        script: |
+          cd app
+          flutter build apk --release --dart-define=API_BASE_URL=$APP_API_BASE_URL
+    artifacts:
+      - app/build/app/outputs/flutter-apk/app-release.apk
